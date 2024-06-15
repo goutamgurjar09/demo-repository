@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Students</title>
+</head>
+<body>
+    <h1>Displaying all the students</h1>
+    <% for(let info of students){ %>
+        <h1><%= info.name %> </h1>
+        <h2><%= info.college %> </h2>
+        <h3><%= info.status %> </h3>
+        <h4><%= info.dsaFinalScore %> </h4>
+        <h5><%= info.webDFinalScore %> </h5>
+        <h6><%= info.reactFinalScore %> </h6>
+    <% } %>
+</body>
+</html>
