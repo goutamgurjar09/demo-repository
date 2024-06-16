@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <%- include("landing") %>
+    <div
+      class="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-100 to-blue-100"
+    >
+      <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <form action="/createInterview" method="post">
+          <div class="mb-4">
+            <label class="block text-zinc-700">Company Name</label>
+            <input
+              type="text"
+              placeholder="for ex: Starsoul"
+              name="companyName"
+              class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            />
+          </div>
+          <div class="mb-4">
+            <label class="block text-zinc-700">Select any date</label>
+            <input
+              type="datetime-local"
+              placeholder="yourname@example.com"
+              name="date"
+              class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-teal-500 text-white py-2 rounded-lg hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400"
+          >
+            SUBMIT
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

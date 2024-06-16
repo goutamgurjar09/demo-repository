@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <%- include("landing")%>
+    <div class="min-h-screen bg-zinc-50 p-4">
+        <div class="bg-white text-blue-gray-100 shadow rounded-lg p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-zinc-900">All Interview</h2>
+                <a href="/create" class="bg-green-500 text-white p-2 rounded-full">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white">
+                    <thead>
+                        <tr >
+                            <th class="py-2 px-4 border-b border-zinc-200 text-left">Company Name</th>
+                            <th class="py-2 px-4 border-b border-zinc-200 text-left">Date</th>
+                            <th class="py-2 px-4 border-b border-zinc-200 text-left">View</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% interviews.forEach(interview => { %>
+                            <tr class="hover:bg-green-700 hover:text-white transition duration-100">
+                                <td class="py-2 px-4 border-b border-zinc-200"><%= interview.companyName %></td>
+                                <td class="py-2 px-4 border-b border-zinc-200"><%= interview.date %></td>
+                                <td><a href="/interviews/<%= interview._id %>" class="py-2 px-6 rounded-lg bg-green-900 text-white">View</a></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

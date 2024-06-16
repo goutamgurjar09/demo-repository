@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Students</title>
+</head>
+<body>
+    <h2>All Students</h2>
+    <ul>
+        <% students.forEach(student => { %>
+            <li><%= student.name %> <button onclick="allocateStudent('<%= student._id %>')">Allocate to Interview</button></li>
+        <% }) %>
+    </ul>
+
+</body>
+</html>

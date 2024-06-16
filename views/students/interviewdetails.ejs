@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Include necessary meta tags, stylesheets, and scripts -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+    <%- include("landing") %>
+    <div class="max-w-3xl mx-auto px-4 py-8">
+
+        <!-- Interview Details Section -->
+        <div class="bg-green-700 py-2 px-10 text-white mb-8">
+            <h2 class="text-center text-3xl underline mb-4">Interview Details</h2>
+            <p><strong>Company Name:</strong> <%= interview.companyName %></p>
+            <p><strong>Date:</strong> <%= interview.date %></p>
+        </div>
+
+        <!-- Allocated Students Section -->
+        <div class="bg-white rounded-lg shadow p-6 mb-8">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Allocated Students</h3>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="py-2  border-b border-gray-200">Name</th>
+                            <th class="py-2 px-4 border-b border-gray-200">College</th>
+                            <th class="py-2 px-4 border-b border-gray-200">Status</th>
+                            <th class="py-2 px-4 border-b border-gray-200">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% interview.students.forEach(student => { %>
+                            <tr class="hover:bg-gray-200 transition duration-100">
+                                <td class="py-2 px-4 border-b border-gray-200"><%= student.name %></td>
+                                <td class="py-2 px-4 border-b border-gray-200"><%= student.college %></td>
+                                <td class="py-2 px-4 border-b border-gray-200"><%= student.status %></td>
+                                <td class="py-2 px-4 border-b border-gray-200">
+                                    <button onclick="resultStudent('<%= student._id %>')" class="py-1 px-3 rounded-lg bg-green-700 text-white hover:bg-green-700">Result</button>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- All Students Section -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">All Students</h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="py-2 px-4 border-b border-gray-200">Name</th>
+                            <th class="py-2 px-4 border-b border-gray-200">College</th>
+                            <th class="py-2 px-4 border-b border-gray-200">Status</th>
+                            <th class="py-2 px-4 border-b border-gray-200">Batch</th>
+                            <th class="py-2 px-4 border-b border-gray-200">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% students.forEach(student => { %>
+                            <tr class="hover:bg-gray-200 transition duration-100">
+                                <td class="py-2 px-4 border-b border-gray-200"><%= student.name %></td>
+                                <td class="py-2 px-4 border-b border-gray-200"><%= student.college %></td>
+                                <td class="py-2 px-4 border-b border-gray-200"><%= student.status %></td>
+                                <td class="py-2 px-4 border-b border-gray-200"><%= student.batch.name %></td>
+                                <td class="py-2 px-4 border-b border-gray-200">
+                                    <button onclick="allocateStudent('<%= student._id %>')" class="py-1 px-3 rounded-lg bg-green-700 text-white hover:bg-green-700">Allocate to Interview</button>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- JavaScript for Allocate Student Functionality -->
+    <script>
+        async function allocateStudent(studentId) {
+            try {
+                const response = await fetch("/interviews/<%= interview._id %>/allocate", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ studentId }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to allocate student');
+                }
+
+                // Reload the page upon successful allocation
+                location.reload();
+            } catch (error) {
+                if (error.message === 'Failed to allocate student') {
+                    alert('Student is already allocated to this interview');
+                } else {
+                    console.error("Allocation error:", error);
+                    // Handle other errors
+                }
+            }
+        }
+    async function resultStudent(studentId) {
+        try {
+            const response = await fetch(`/students/${studentId}/results`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch results');
+            }
+
+            const resultPage = await response.text();
+            // Replace the current page content with the results page
+            document.documentElement.innerHTML = resultPage;
+        } catch (error) {
+            console.error("Fetching results error:", error);
+            // Handle errors or display an alert
+        }
+    }
+    </script>
+</body>
+</html>

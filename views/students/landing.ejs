@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .bg-green-600, .text-white {
+      transition: all 0.3s;
+    }
+    .active {
+      background-color: rgb(22,163,74);
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <div class="h-[70px] sticky z-50 bg-white top-0 left-1/2 flex justify-center item-center ">
+    <nav class=" shadow-md rounded-full px-4 py-2 flex space-x-8">
+      <a href="/createstudent" class="flex items-center space-x-2 px-6 py-2 rounded-full" onclick="changeBgColor(this)">
+        <span>Create Student</span>
+      </a>
+      <a href="/batch" class="flex items-center rounded-full px-4 py-2" onclick="changeBgColor(this)">
+        <span>Create Batch</span>
+      </a>
+      <a href="/getstudent" class="flex items-center rounded-full px-4 py-2" onclick="changeBgColor(this)">
+        <span>Student List</span>
+      </a>
+      <a href="/interviewlist" class="flex items-center px-4 rounded-full py-2" onclick="changeBgColor(this)">
+        <span>Interview List</span>
+      </a>
+    </nav>
+  </div>
+
+ 
+
+  <script>
+    function changeBgColor(element) {
+      // Remove 'active' class from all links
+      const links = document.querySelectorAll('nav a');
+      links.forEach(link => {
+        link.classList.remove('active');
+      });
+
+      // Add 'active' class to the clicked element
+      element.classList.add('active');
+
+      // Store the active state in localStorage
+      localStorage.setItem('activeLink', element.href);
+    }
+
+    // Apply the active class on page load based on the stored value
+    window.onload = function() {
+      const activeLink = localStorage.getItem('activeLink');
+      if (activeLink) {
+        const links = document.querySelectorAll('nav a');
+        links.forEach(link => {
+          if (link.href === activeLink) {
+            link.classList.add('active');
+          }
+        });
+      }
+    };
+  </script>
+</body>
+</html>
