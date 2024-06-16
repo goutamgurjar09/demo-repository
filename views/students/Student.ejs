@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <%- include("landing")%>
+    <div class="min-h-screen bg-zinc-50 p-4">
+        <div class="bg-white text-blue-gray-100 shadow rounded-lg p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold text-zinc-900">Students</h2>
+                <a href="/createstudent" class="bg-green-500 text-white p-2 rounded-full">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                </a>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white">
+                    <thead>
+                        <tr >
+                            <th class="py-2 px-4 border-b border-zinc-200 text-left">Name</th>
+                            <th class="py-2 px-4 border-b border-zinc-200 text-left">College</th>
+                            <th class="py-2 px-4 border-b border-zinc-200 text-left">Status</th>
+                            <th class="py-2 px-4 border-b border-zinc-200 text-left">Batch</th>
+                            <th class="py-2 px-4 border-b border-zinc-200 text-left">DSA Score</th>
+                            <th class="py-2 px-4 border-b border-zinc-200 text-left">WebD Score</th>
+                            <th class="py-2 px-4 border-b border-zinc-200 text-left">React Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% students.forEach(student => { %>
+                            <tr class="hover:bg-green-700 hover:text-white transition duration-100">
+                                <td class="py-2 px-4 border-b border-zinc-200"><%= student.name %></td>
+                                <td class="py-2 px-4 border-b border-zinc-200"><%= student.college %></td>
+                                <td class="py-2 px-4 border-b border-zinc-200"><%= student.status %></td>
+                                <td class="py-2 px-4 border-b border-zinc-200"><%= student.batch ? student.batch.name : 'N/A' %></td>
+                                <td class="py-2 px-4 border-b border-zinc-200"><%= student.courseScores ? student.courseScores.dsaScore : 'N/A' %></td>
+                                <td class="py-2 px-4 border-b border-zinc-200"><%= student.courseScores ? student.courseScores.webdScore : 'N/A' %></td>
+                                <td class="py-2 px-4 border-b border-zinc-200"><%= student.courseScores ? student.courseScores.reactScore : 'N/A' %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

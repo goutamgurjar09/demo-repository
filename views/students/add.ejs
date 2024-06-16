@@ -3,38 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Students Data</title>
+    <title>Create Student</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <form action="/students" method="post">
-          <div class="form-group">
-            <label>Name:</label>
-            <input type="text" name="name" class="form-control" required>
-          </div>
-          <div class="form-group">
-            <label>College:</label>
-            <input type="text" name="college" class="form-control" required>
-          </div>
-          <div class="form-group">
-            <label>Status:</label>
-            <select name="status" class="form-control" required>
-              <option value="placed">Placed</option>
-              <option value="not_placed">Not Placed</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>DSA Final Score:</label>
-            <input type="number" name="dsaFinalScore" class="form-control" required>
-          </div>
-          <div class="form-group">
-            <label>WebD Final Score:</label>
-            <input type="number" name="webDFinalScore" class="form-control" required>
-          </div>
-          <div class="form-group">
-            <label>React Final Score:</label>
-            <input type="number" name="reactFinalScore" class="form-control" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Add Student</button>
-    </form>
+    <%- include("landing")%>
+    <div class="min-h-screen flex items-center justify-center  p-4">
+        <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+            <form action="/CreateStudent" method="post">
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="name">Full Name</label>
+                    <input class="w-full px-3 py-2 border rounded-lg" type="text" name="name" id="name" placeholder="Full Name" required />
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="college">College Name</label>
+                    <input class="w-full px-3 py-2 border rounded-lg" type="text" id="college" name="college" placeholder="College Name" required />
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="status">Status</label>
+                    <select class="w-full px-3 py-2 border rounded-lg" name="status" id="status" required>
+                        <option value="">-- Choose Status --</option>
+                        <option value="placed">Placed</option>
+                        <option value="not_placed">Not Placed</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="batch">Batch</label>
+                    <select class="w-full px-3 py-2 border rounded-lg" name="batchId" id="batch" required>
+                        <option value="">-- Choose Batch --</option>
+                        <% batches.forEach(function(batch) { %>
+                            <option value="<%= batch._id %>"><%= batch.name %></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="dsaScore">DSA Score</label>
+                    <input class="w-full px-3 py-2 border rounded-lg" type="number" id="dsaScore" name="dsaScore" placeholder="DSA Score" required />
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="webdScore">Web Development Score</label>
+                    <input class="w-full px-3 py-2 border rounded-lg" type="number" id="webdScore" name="webdScore" placeholder="Web Development Score" required />
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="reactScore">React Score</label>
+                    <input class="w-full px-3 py-2 border rounded-lg" type="number" id="reactScore" name="reactScore" placeholder="React Score" required />
+                </div>
+                <button class="w-full bg-blue-600 text-white py-2 rounded-lg">Submit Details</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

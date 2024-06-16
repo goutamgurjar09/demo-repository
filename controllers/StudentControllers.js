@@ -1,80 +1,72 @@
-// const StudentModal = require('../Modal/StudentModel');
+const Student = require('../models/Student');
+const CourseScore = require('../models/CourseScore');
+const Batch = require('../models/Batch');
 
-
-// exports.createStudents = async (req, res) => {
-//     try{
-//         //console.log("studentData: ",req.body);
-//         const newStudent = new StudentModal(req.body);
-//         await newStudent.save();
-//         res.status(200).send({ message:'Data added successfully', data: newStudent });
-//         res.render('showStudents',{newStudent});
-//     }
-//     catch(error){
-//         res.status(400).send({ message: error.message });
-//         console.log(error);
-//     }
-// }
-// exports.getStudents = async (req , res)=>{
-//     try{
-//         const students = await StudentModal.find();
-//         res.status(200).send({message:'Data fetched successfully', data: students});
-//         res.render('showStudents',{students});
-//     }
-//     catch(error){
-//         res.status(400).send({ message: error.message });
-//         console.log(error);
-//     }
-// }
-
-
-// const StudentModal = require('../Modal/StudentModel');
-
-// exports.createStudents = async (req, res) => {
-//     try {
-//         // console.log(req.body)
-//         const newStudent = new StudentModal(req.body);
-//         await newStudent.save();
-//         res.status(200).send({ message: 'Data added successfully', data: newStudent });
-//     } catch (error) {
-//         res.status(400).send({ message: error.message });
-//         console.log(error);
-//     }
-// };
-
-// exports.getStudents = async (req, res) => {
-//     try {
-//         const students = await StudentModal.find();
-//        // console.log(students);
-//         res.render('showStudents', { students });
-//        // res.redirect('/students');
-//     } catch (error) {
-//         res.status(400).send({ message: error.message });
-//         console.log(error);
-//     }
-// };
-
-
-
-const StudentModal = require('../Modal/StudentModel');
+exports.Students = async (req, res) => {
+    try {
+        const batches = await Batch.find(); // Retrieve all batches
+        res.render('students/add', { batches }); // Pass batches to the view
+    } catch (error) {
+        res.status(500).send('Error retrieving batches');
+    }
+}
 
 exports.createStudents = async (req, res) => {
     try {
-        const newStudent = new StudentModal(req.body);
-        await newStudent.save();
-        // Redirect to the /students route after successful save
-        res.redirect('/students');
+        const { name, college, status, batchId, dsaScore, webdScore, reactScore } = req.body;
+
+        // Validation
+        if (!name || !college || !status || !batchId || !dsaScore || !webdScore || !reactScore) {
+            return res.status(400).send('All fields are required');
+        }
+
+        const batch = await Batch.findById(batchId);
+        if (!batch) {
+            return res.status(400).send('Invalid batch ID');
+        }
+
+        // Create a new student
+        const student = new Student({
+            name,
+            college,
+            status,
+            batch: batchId
+        });
+
+        await student.save();
+
+        // Create course scores and associate with the student
+        const courseScore = new CourseScore({
+            dsaScore,
+            webdScore,
+            reactScore,
+            student: student._id
+        });
+
+        await courseScore.save();
+
+        student.courseScores = courseScore._id;
+        await student.save();
+
+        // Redirect to the students page
+        res.status(201).redirect('/getstudent');
     } catch (error) {
-        res.status(400).send({ message: error.message });
-        console.log(error);
+        console.error('Error adding student:', error);
+        res.status(500).send('Error adding student');
     }
 };
 
 exports.getStudents = async (req, res) => {
     try {
-        const students = await StudentModal.find();
-        res.render('./students/showStudents', { students });
+        // Fetch all students with their associated batch and course scores
+        const students = await Student.find()
+            .populate('batch')
+            .populate('courseScores');
+
+        // Render the view with the student data
+        res.render('students/Student', { students });
     } catch (error) {
-        res.status(400).send({ message: error.message });
-        console.log(error);
+        console.error('Error fetching students:', error);
+        res.status(500).send('Error fetching students');
     }
 };

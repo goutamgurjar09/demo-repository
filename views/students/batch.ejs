@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Batch</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body >
+  <%- include("landing") %>
+  <div class="bg-white p-8  mx-auto  rounded-lg shadow-md w-full max-w-md">
+    <form action="/createbatch" method="post" class="space-y-6">
+      <div>
+        <label for="batchname" class="block text-lg font-medium text-gray-700 mb-2">Batch Name:</label>
+        <input type="text" id="batchname" name="batchname" required 
+               class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" />
+      </div>
+      <button type="submit" 
+              class="w-full py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300">Create Batch</button>
+    </form>
+  </div>
+</body>
+</html>
