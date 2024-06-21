@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Interview</title>
+</head>
+<body>
+    <%- include('../base/nav') %>
+    <div class="container mt-5 mb-5">
+        <h3 class="mb-3 text-center">Interview Details</h3>
+        <p><strong>Company Name:</strong> <%= interview.companyName %></p>
+        <p><strong>Date:</strong> <%= interview.date.toDateString() %></p>
+
+        <h3 class="mt-5 mb-3 text-center">Allocated Student</h3>
+        
+        <!-- Allocated Students Section -->
+        <div class="bg-white rounded-lg shadow p-6 mb-8">
+            <div class="table-responsive text-center">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">College</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Batch</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% interview.students.forEach(student => { %>
+                            <tr>
+                                <td><%= student.name %></td>
+                                <td><%= student.college %></td>
+                                <td><%= student.status %></td>
+                                <td><%= student.batch ? student.batch.batchName : 'N/A' %></td>
+                                <td>
+                                    <button onclick="resultStudent('<%= student._id %>')" type="button" class="btn btn-success">Result</button>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- All Students Section -->
+    <div class="bg-white container rounded shadow p-4">
+        <h2 class="h4 font-weight-bold text-dark mb-4 text-center">All Students</h2>
+        <div class="table-responsive text-center">
+            <table class="table table-striped table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">College</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Batch</th>
+                        <th scope="col">DSA Final Score</th>
+                        <th scope="col">WebD Final Score</th>
+                        <th scope="col">React Final Score</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% students.forEach(student => { %>
+                        <tr>
+                            <td><%= student.name %></td>
+                            <td><%= student.college %></td>
+                            <td><%= student.status %></td>
+                            <td><%= student.batch ? student.batch.batchName : 'N/A' %></td>
+                            <td><%= student.courseScores ? student.courseScores.dsaFinalScore : 'N/A' %></td>
+                            <td><%= student.courseScores ? student.courseScores.webDFinalScore : 'N/A' %></td>
+                            <td><%= student.courseScores ? student.courseScores.reactFinalScore : 'N/A' %></td>
+                            <td>
+                                <button onclick="allocateStudent('<%= student._id %>')" class="btn btn-success">Allocate to Interview</button>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        //Js to allocateStudent for an interview 
+        async function allocateStudent(studentId) {
+            try {
+                const interviewId = '<%= interview._id %>';
+                const response = await fetch(`/interviews/${interviewId}/allocate`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ studentId }),
+                });
+
+                if (!response.ok) {
+                throw new Error('Failed to allocate student to interview');
+                }
+
+                window.location.reload();
+            } catch (err) {
+                console.error('Error allocating student to interview:', err);
+            }
+        }
+
+        //Result-> to allocated Student for interview
+        async function resultStudent(studentId) {
+            try {
+                const response = await fetch(`/students/${studentId}/results`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+                });
+
+                if (!response.ok) {
+                throw new Error('Failed to fetch results');
+                }
+
+                const resultPage = await response.text();
+                // Replace the current page content with the results page
+                document.documentElement.innerHTML = resultPage;
+            } catch (error) {
+                console.error("Fetching results error:", error);
+            }
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Interview</title>
+   
+</head>
+<body>
+    <%- include('../base/nav') %>
+
+    <div class="d-flex flex-column align-items-center justify-content-center bg-gradient p-5" style="background: linear-gradient(to bottom, #d4edda, #c3e6cb);">
+        <h3 class="text-center">Create New Interview</h3>
+
+        <div class="bg-white p-4 rounded shadow-lg w-100" style="max-width: 400px;">
+            <form action="/interviews/create" method="post">
+                <div class="mb-3">
+                    <label for="companyName" class="form-label">Company Name</label>
+                    <input type="text" id="companyName" name="companyName" placeholder="for ex: Mxpertz" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="date" class="form-label">Select any date</label>
+                    <input type="datetime-local" id="date" name="date" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-teal w-100 text-white" style="background-color: #20c997;">Create interview</button>
+            </form>
+        </div>
+    </div>
+
+ 
+</body>
+</html>

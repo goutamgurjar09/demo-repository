@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Batch</title>
+    <style>
+        /* Custom CSS if needed */
+        .container {
+            margin-top: 30px;
+        }
+        .center-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+     <!-- Navigation -->
+     <%- include('../base/nav') %>
+    <div class="container">
+        <h3 class="text-center mb-2">Create New Batch</h3>
+        <!-- Form to create a new batch -->
+        <div class="center-content mt-5">
+            <form action="/batch/create" method="post" class="mb-4">
+                <div class=" d-flex justify-content-center align-items-center flex-column mb-4">
+                    <!-- <label for="batchName" class="form-label">Batch Name:</label> -->
+                    <input type="text" class="form-control " id="batchName" style="width: 400px;" name="batchName" placeholder="Batch Name" required>
+                    <button type="submit" class="btn btn-success mt-4">Create Batch</button>
+
+                </div>
+                <div class="mb-3 d-flex justify-content-center align-items-center flex-column" >
+                    <label for="batchSelect" class="form-label fw-bold">All Batches Here:</label>
+                    <select class="form-select" id="batchSelect" name="batchSelect">
+                        <option selected disabled>Select Batch...</option>
+                        <% batches.forEach(batch => { %>
+                            <option value="<%= batch._id %>"><%= batch.batchName %></option>
+                        <% }) %>
+                    </select>
+                </div>
+            </form>
+
+            <!-- List of batches
+            <h2 class="text-center">List of Batches</h2>
+            <ul class="list-group">
+                <% batches.forEach(batch => { %>
+                    <li class="list-group-item"><%= batch.batchName %></li>
+                <% }) %>
+            </ul> -->
+        </div>
+    </div>
+
+</body>
+</html>

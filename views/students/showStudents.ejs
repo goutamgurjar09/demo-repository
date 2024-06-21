@@ -2,18 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Students</title>
+    <title>Students</title>
+    <style>
+        .container {
+            margin-top: 20px;
+        }
+        /* Optional custom styles */
+        .table th, .table td {
+            vertical-align: middle;
+        }
+    </style>
 </head>
 <body>
-    <h1>Displaying all the students</h1>
-    <% for(let info of students){ %>
-        <h1><%= info.name %> </h1>
-        <h2><%= info.college %> </h2>
-        <h3><%= info.status %> </h3>
-        <h4><%= info.dsaFinalScore %> </h4>
-        <h5><%= info.webDFinalScore %> </h5>
-        <h6><%= info.reactFinalScore %> </h6>
-    <% } %>
+    <%- include('../base/nav') %>
+    <div class="container">
+        <h3 class="text-center mb-4">List of Students</h3>
+
+        <!-- Bootstrap Table -->
+        <div class="table-responsive mt-5">
+            <table class="table table-bordered table-striped text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>College</th>
+                        <th>Status</th>
+                        <th>Batch</th>
+                        <th>DSA Final Score</th>
+                        <th>WebD Final Score</th>
+                        <th>React Final Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% students.forEach(student => { %>
+                        <tr>
+                            <td><%= student.name %></td>
+                            <td><%= student.college %></td>
+                            <td><%= student.status %></td>
+                            <td><%= student.batch ? student.batch.batchName : 'N/A' %></td>
+                            <td><%= student.courseScores ? student.courseScores.dsaFinalScore : 'N/A' %></td>
+                            <td><%= student.courseScores ? student.courseScores.webDFinalScore : 'N/A' %></td>
+                            <td><%= student.courseScores ? student.courseScores.reactFinalScore : 'N/A' %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
 const batchSchema = new mongoose.Schema({
-    name: {
+    batchName: {
         type: String,
         trim: true,
         required: true
     }
-})
+}, { timestamps: true });
+
 
 const Batch = mongoose.model('Batch', batchSchema)
 

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result</title>
+</head>
+<body>
+    <%- include('../base/nav') %>
+    <div class="container mt-5">
+        <h1>Student Result</h1>
+        <p><strong>Student Name:</strong> <%= student.name %></p>
+        <p><strong>College:</strong> <%= student.college %></p>
+        <p><strong>Batch:</strong> <%= student.batch ? student.batch.batchName : 'N/A' %></p>
+        <!-- <p><strong>Status:</strong> <%= student.status %></p> -->
+        
+        <h3>Calculated Result</h3>
+        <p><strong>Result:</strong> <%= result %></p>
+        <p><strong>Percentage:</strong> <%= percentage.toFixed(2) %> %</p> <!-- Display percentage -->
+
+
+        <h3>Interview Results</h3>
+        <% if (results && results.length > 0) { %>
+            <% results.forEach(result => { %>
+                <p><strong>Interview with:</strong> <%= result.interview.companyName %></p>
+                <p><strong>Date:</strong> <%= result.interview.date.toDateString() %></p>
+                <p><strong>Result Status:</strong> <%= result.result %></p>
+            <% }) %>
+        <% } else { %>
+            <p>No interview results found.</p>
+        <% } %>
+    </div>
+</body>
+</html>

@@ -2,6 +2,8 @@ const express = require('express');
 const dotenv = require('dotenv');
 const connectDB = require('./database/db');
 const studentRoutes = require('./routes/studentRoutes');
+const interviewRoutes = require('./routes/interviewRoutes');
+const batchRoutes = require('./routes/batchRoutes');
 const path = require('path');
 dotenv.config();
 const app = express();
@@ -22,17 +24,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 connectDB();
 
 app.get('/', (req, res) => {
-    res.send('Welcome to Career Camp Application');
+    res.render('base/nav');
 });
 
-//Route To Add new Students Data
-app.get('/students/addStudent', (req, res) => {
-    res.render('students/add');
-});
 
-// app.use('/student', studentRoutes);
-app.use('/', studentRoutes);  //type /students to see the all data
 
+app.use(studentRoutes);   // /students to see the all interviews
+
+app.use(interviewRoutes); // /interviews to see the all interviews
+
+app.use(batchRoutes);  
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
